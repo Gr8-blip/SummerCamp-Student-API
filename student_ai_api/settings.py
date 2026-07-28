@@ -271,8 +271,10 @@ LOGGING = {
 if not DEBUG and SECRET_KEY == "insecure-dev-key-change-me":
     raise RuntimeError("DJANGO_SECRET_KEY must be set in production.")
 
-if not DEBUG and not GEMINI_API_KEY:
-    raise RuntimeError("GEMINI_API_KEY must be set in production.")
+# CHANGE THIS LINE:
+if not DEBUG and not OPENROUTER_API_KEY:
+    raise RuntimeError("OPENROUTER_API_KEY must be set in production.")
+
 if not DEBUG and not PROJECT_API_KEY:
     raise RuntimeError("PROJECT_API_KEY must be set in production.")
 

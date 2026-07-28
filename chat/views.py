@@ -3,14 +3,13 @@ import time
 
 from django.conf import settings
 from django_ratelimit.decorators import ratelimit
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from .permissions import HasValidProjectKey
 from .serializers import ChatRequestSerializer
-from .services import GeminiUnavailableError, get_ai_reply
+from .services import LLMUnavailableError, get_ai_reply
 from .utils import get_client_ip
 
 logger = logging.getLogger("chat")
@@ -67,13 +66,14 @@ def chat_view(request):
             message=data["message"],
             history=data.get("history", []),
         )
-    except GeminiUnavailableError as exc:
-        logger.error("Gemini call failed: %s", exc)
+    except LLMUnavailableError as exc:
+        logger.error("LLM call failed: %s", exc)
         _log_request(client_ip, start_time, status_code=503)
         return Response(
             {"error": "The AI is currently unavailable. Please try again."},
             status=status.HTTP_503_SERVICE_UNAVAILABLE,
         )
+
     _log_request(client_ip, start_time, status_code=200)
     return Response({"reply": reply}, status=status.HTTP_200_OK)
 

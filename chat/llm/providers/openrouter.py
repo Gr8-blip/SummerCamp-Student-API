@@ -41,6 +41,11 @@ class OpenRouterProvider(LLMProvider):
             model=settings.LLM_MODEL,
             messages=payload_messages,
             max_tokens=max_output_tokens,
+            tools=[
+                {
+                    "type": "openrouter:web_search",
+                }
+            ],
             extra_headers=extra_headers or None,
         )
 

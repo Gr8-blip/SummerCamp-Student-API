@@ -139,19 +139,8 @@ REST_FRAMEWORK = {
 # production, e.g.:
 #   CORS_ALLOWED_ORIGINS=https://app.ravilletech.com,https://ravilletech.com
 
-CORS_ALLOWED_ORIGINS = env_list(
-    "CORS_ALLOWED_ORIGINS",
-    "http://localhost:3000,http://127.0.0.1:3000,"
-    "http://localhost:5500,http://127.0.0.1:5500,"
-    "http://localhost:8000,http://127.0.0.1:8000",
-)
 
-# Allow any localhost port during local development without having to
-# enumerate every dev-server port (Live Server, Vite, CRA, etc.).
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^http://localhost:\d+$",
-    r"^http://127\.0\.0\.1:\d+$",
-] if DEBUG else []
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_HEADERS = list(__import__("corsheaders.defaults", fromlist=["default_headers"]).default_headers) + [
     "x-project-key",
